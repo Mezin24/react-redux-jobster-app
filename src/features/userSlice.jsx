@@ -2,9 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { json } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customSlice from '../utils/axios';
+import { addUserToStorage, getUserFromStorage } from '../utils/localStorage';
 
 const initialState = {
-  user: null,
+  user: getUserFromStorage(),
   isLoading: false,
 };
 
@@ -43,6 +44,7 @@ const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.user = payload;
+        addUserToStorage(payload);
         toast.success(`Welcome ${payload.name}`);
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -56,6 +58,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.user = payload;
+        addUserToStorage(payload);
         toast.success(`Welcome back ${payload.name}`);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {

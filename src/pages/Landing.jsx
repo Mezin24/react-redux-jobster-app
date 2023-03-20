@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import main from '../assets/images/job.svg';
 import Wrapper from '../assets/wrappers/LandingPage';
-import { Logo } from '../components/';
+import { Logo } from '../components';
 
-const Lading = () => {
+const Landing = () => {
   return (
     <Wrapper>
       <nav>
@@ -30,4 +30,4 @@ const Lading = () => {
     </Wrapper>
   );
 };
-export default Lading;
+export default Landing;
