@@ -51,12 +51,12 @@ const Register = () => {
     let timer;
     if (user) {
       timer = setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/');
       }, 2000);
     }
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [user, navigate]);
 
   return (
     <Wrapper className='full-page'>

@@ -2,11 +2,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { json } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customSlice from '../utils/axios';
-import { addUserToStorage, getUserFromStorage } from '../utils/localStorage';
+import {
+  addUserToStorage,
+  getUserFromStorage,
+  removeUserFromStorage,
+} from '../utils/localStorage';
 
 const initialState = {
   user: getUserFromStorage(),
   isLoading: false,
+  isSidebarOpen: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -36,6 +41,16 @@ export const loginUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
+  reducers: {
+    toggleSidebar: (state) => {
+      state.isSidebarOpen = !state.isSidebarOpen;
+    },
+    userLogout: (state) => {
+      state.user = null;
+      state.isSidebarOpen = false;
+      removeUserFromStorage();
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -67,5 +82,7 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const { toggleSidebar, userLogout } = userSlice.actions;
 
 export default userSlice.reducer;
