@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Wrapper from '../../assets/wrappers/DashboardFormPage';
 import { FormRow } from '../../components/';
+import { updateUser } from '../../features/user/userSlice';
 
 const Profile = () => {
   const { user, isLoading } = useSelector((state) => state.user);
@@ -26,7 +27,7 @@ const Profile = () => {
     if (!name.trim() || !lastName.trim() || !email.trim() || !location.trim()) {
       return toast.error('Please enter valid data');
     }
-    console.log(userData);
+    dispatch(updateUser({ name, email, location, lastName }));
   };
 
   return (
