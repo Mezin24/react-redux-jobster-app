@@ -8,6 +8,7 @@ import {
   clearValues,
   createJob,
 } from '../../features/job/jobSlice';
+import { useEffect } from 'react';
 
 const AddJobs = () => {
   const {
@@ -22,6 +23,7 @@ const AddJobs = () => {
     isEditing,
     editJobId,
   } = useSelector((store) => store.job);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleJobInput = (e) => {
@@ -44,6 +46,10 @@ const AddJobs = () => {
       })
     );
   };
+
+  useEffect(() => {
+    dispatch(handleChange({ name: 'jobLocation', value: user.location }));
+  }, []);
 
   return (
     <Wrapper>
@@ -104,7 +110,7 @@ const AddJobs = () => {
               onClick={handleSubmit}
               disabled={isLoading}
             >
-              submit
+              {isLoading ? 'Loading...' : 'submit'}
             </button>
           </div>
         </div>
