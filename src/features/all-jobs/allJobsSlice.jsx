@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { stat } from 'fs';
 import { toast } from 'react-toastify';
 import { getJobsThunk, showStatsThunk } from './jobsThunk';
 
@@ -37,6 +38,10 @@ const allJobsSlice = createSlice({
     hideLoading: (state) => {
       state.isLoading = false;
     },
+    // handleSearchChange: (state, { payload }) => {
+    //   const { name, value } = payload;
+    //   state[name] = value;
+    // },
   },
   extraReducers: (builder) => {
     builder
