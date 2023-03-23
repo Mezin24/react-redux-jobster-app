@@ -1,7 +1,7 @@
 import { clearValues } from './jobSlice';
 import { showLoading, hideLoading, getAllJobs } from '../all-jobs/allJobsSlice';
 import { userLogout } from '../user/userSlice';
-import customFetch from '../../utils/axios';
+import customFetch, { checkForUnauthorizedResponse } from '../../utils/axios';
 import authHeader from '../../utils/authHeader';
 
 export const createJobThunk = async (job, thunkAPI) => {
@@ -30,7 +30,7 @@ export const deleteJobThunk = async (jobId, thunkAPI) => {
     return response.data;
   } catch (error) {
     thunkAPI.dispatch(hideLoading());
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return checkForUnauthorizedResponse(error, thunkAPI);
   }
 };
 
@@ -44,6 +44,6 @@ export const updateJobThunk = async ({ jobId, job }, thunkAPI) => {
     thunkAPI.dispatch(clearValues());
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return checkForUnauthorizedResponse(error, thunkAPI);
   }
 };

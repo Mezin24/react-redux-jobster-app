@@ -38,10 +38,17 @@ const allJobsSlice = createSlice({
       state.isLoading = false;
     },
     handleSearchChange: (state, { payload: { name, value } }) => {
+      state.page = 1;
       state[name] = value;
     },
     clearFilters: (state) => {
       return { ...state, ...initialFiltersState };
+    },
+    changePage: (state, { payload }) => {
+      state.page = payload;
+    },
+    clearAllJobsState: () => {
+      return { ...initialState };
     },
   },
   extraReducers: (builder) => {
@@ -50,7 +57,6 @@ const allJobsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getAllJobs.fulfilled, (state, { payload }) => {
-        console.log(payload);
         return {
           ...state,
           isLoading: false,
@@ -79,7 +85,12 @@ const allJobsSlice = createSlice({
   },
 });
 
-export const { hideLoading, showLoading, handleSearchChange } =
-  allJobsSlice.actions;
+export const {
+  hideLoading,
+  showLoading,
+  handleSearchChange,
+  changePage,
+  clearAllJobsState,
+} = allJobsSlice.actions;
 
 export default allJobsSlice.reducer;

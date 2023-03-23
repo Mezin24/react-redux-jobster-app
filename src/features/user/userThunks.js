@@ -1,5 +1,7 @@
 import { userLogout } from './userSlice';
-import customFetch from '../../utils/axios';
+import customFetch, { checkForUnauthorizedResponse } from '../../utils/axios';
+import { clearValues } from '../job/jobSlice';
+import { clearAllJobsState } from '../all-jobs/allJobsSlice';
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
@@ -28,10 +30,21 @@ export const updateUserThunk = async (url, user, thunkAPI) => {
     });
     return response.data;
   } catch (error) {
-    if (error.response.status === 401) {
-      thunkAPI.dispatch(userLogout());
-      return thunkAPI.rejectWithValue('Unauthorized! Logging Out...');
-    }
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    // if (error.response.status === 401) {
+    //   thunkAPI.dispatch(userLogout());
+    //   return thunkAPI.rejectWithValue('Unauthorized! Logging Out...');
+    // }
+    return checkForUnauthorizedResponse(error, thunkAPI);
+  }
+};
+
+export const clearStoreThunk = async (message, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(userLogout(message));
+    thunkAPI.dispatch(clearValues());
+    thunkAPI.dispatch(clearAllJobsState());
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject();
   }
 };
