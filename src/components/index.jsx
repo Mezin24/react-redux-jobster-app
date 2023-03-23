@@ -9,7 +9,12 @@ import AllJobsContainer from './JobsContainer';
 import SearchJobs from './SearchJobs';
 import Job from './Job';
 import Loading from './Loading';
-import Jobinfo from './Jobinfo';
+import JobInfo from './JobInfo';
+import StatsContainer from './StatsContainer';
+import ChartsContainer from './ChartsContainer';
+import StatItem from './StatsItem';
+import AreaChat from './AreaChat';
+import BarChat from './BarChat';
 
 export {
   Logo,
@@ -23,5 +28,10 @@ export {
   SearchJobs,
   Job,
   Loading,
-  Jobinfo,
+  JobInfo,
+  StatsContainer,
+  ChartsContainer,
+  StatItem,
+  AreaChat,
+  BarChat,
 };

@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { getJobsThunk } from './jobsThunk';
+import { getJobsThunk, showStatsThunk } from './jobsThunk';
 
 export const getAllJobs = createAsyncThunk('allJobs/getJob', (_, thunkAPI) => {
   return getJobsThunk(thunkAPI);
 });
+
+export const showStats = createAsyncThunk('allJobs/stats', showStatsThunk);
 
 const initialFiltersState = {
   search: '',
@@ -49,6 +51,21 @@ const allJobsSlice = createSlice({
         };
       })
       .addCase(getAllJobs.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
+      })
+      .addCase(showStats.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        showStats.fulfilled,
+        (state, { payload: { defaultStats, monthlyApplications } }) => {
+          state.isLoading = false;
+          state.stats = defaultStats;
+          state.monthlyApplications = monthlyApplications;
+        }
+      )
+      .addCase(showStats.rejected, (state) => {
         state.isLoading = false;
         toast.error(payload);
       });
