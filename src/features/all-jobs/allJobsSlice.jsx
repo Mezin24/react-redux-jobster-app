@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 import { toast } from 'react-toastify';
 import { getJobsThunk, showStatsThunk } from './jobsThunk';
 
