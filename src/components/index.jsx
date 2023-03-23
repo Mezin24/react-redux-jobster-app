@@ -15,6 +15,7 @@ import ChartsContainer from './ChartsContainer';
 import StatItem from './StatsItem';
 import AreaChat from './AreaChat';
 import BarChat from './BarChat';
+import PageBtnContainer from './PageBtnContainer';
 
 export {
   Logo,
@@ -34,4 +35,5 @@ export {
   StatItem,
   AreaChat,
   BarChat,
+  PageBtnContainer,
 };

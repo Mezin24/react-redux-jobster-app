@@ -38,10 +38,19 @@ const allJobsSlice = createSlice({
     hideLoading: (state) => {
       state.isLoading = false;
     },
-    // handleSearchChange: (state, { payload }) => {
-    //   const { name, value } = payload;
-    //   state[name] = value;
-    // },
+    handleSearchChange: (state, { payload: { name, value } }) => {
+      state.page = 1;
+      state[name] = value;
+    },
+    clearFilters: (state) => {
+      return { ...state, ...initialFiltersState };
+    },
+    changePage: (state, { payload }) => {
+      state.page = payload;
+    },
+    clearAllJobsState: () => {
+      return { ...initialState };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -77,6 +86,12 @@ const allJobsSlice = createSlice({
   },
 });
 
-export const { hideLoading, showLoading } = allJobsSlice.actions;
+export const {
+  hideLoading,
+  showLoading,
+  handleSearchChange,
+  changePage,
+  clearAllJobsState,
+} = allJobsSlice.actions;
 
 export default allJobsSlice.reducer;

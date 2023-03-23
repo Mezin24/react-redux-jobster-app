@@ -1,8 +1,20 @@
 import authHeader from '../../utils/authHeader';
-import customFetch from '../../utils/axios';
+import customFetch, { checkForUnauthorizedResponse } from '../../utils/axios';
 
 export const getJobsThunk = async (thunkAPI) => {
-  let url = '/jobs';
+  const {
+    page,
+    searchStatus: status,
+    searchType: jobType,
+    sort,
+    search,
+  } = thunkAPI.getState().allJobs;
+  let url = `/jobs?page=${page}&status=${status}&jobType=${jobType}&sort=${sort}`;
+
+  if (search) {
+    url += `&search=${search}`;
+  }
+
   try {
     const response = await customFetch.get(url, {
       headers: {
@@ -11,16 +23,15 @@ export const getJobsThunk = async (thunkAPI) => {
     });
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return checkForUnauthorizedResponse(error, thunkAPI);
   }
 };
 
 export const showStatsThunk = async (_, thunkAPI) => {
   try {
     const response = await customFetch('/jobs/stats', authHeader(thunkAPI));
-    console.log(response);
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return checkForUnauthorizedResponse(error, thunkAPI);
   }
 };

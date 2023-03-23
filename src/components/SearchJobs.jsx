@@ -1,16 +1,40 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { FormRow, FormSelect } from '.';
 import Wrapper from '../assets/wrappers/SearchContainer';
-import { FormRow, FormSelect } from './';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  handleSearchChange,
+  getAllJobs,
+} from '../features/all-jobs/allJobsSlice';
 
-const SearchJobs = () => {
-  const { search, searchStatus, searchType, sort, sortOptions, isLoading } =
-    useSelector((state) => state.allJobs);
-  const { statusOptions, jobTypeOptions } = useSelector((state) => state.job);
-  const handleSearch = (e) => {};
+const SearchContainer = () => {
+  const {
+    isLoading,
+    search,
+    searchStatus,
+    searchType,
+    sort,
+    sortOptions,
+    page,
+  } = useSelector((store) => store.allJobs);
+  const { jobTypeOptions, statusOptions } = useSelector((store) => store.job);
+  const dispatch = useDispatch();
 
+  const handleSearch = (e) => {
+    const { name, value } = e.target;
+    dispatch(handleSearchChange({ name, value }));
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(getAllJobs());
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search, searchStatus, searchType, sort, sortOptions, page]);
 
   return (
     <Wrapper>
@@ -60,4 +84,5 @@ const SearchJobs = () => {
     </Wrapper>
   );
 };
-export default SearchJobs;
+
+export default SearchContainer;
